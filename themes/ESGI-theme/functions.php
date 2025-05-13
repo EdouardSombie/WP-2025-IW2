@@ -56,3 +56,78 @@ function esgi_getIcon($name)
 
     return $markups[$name] ?? '';
 }
+
+
+// Paramètres customisables
+
+add_action('customize_register', 'esgi_customize_register');
+function esgi_customize_register($wp_customize)
+{
+    $wp_customize->add_section('esgi_params', [
+        'title' => __('Réglages ESGI', 'ESGI'),
+        'description' => __('Faites-vous plaisir :)', 'ESGI'),
+        'priority' => 1,
+        'capability' => 'edit_theme_options',
+    ]);
+
+    // Ajout d'un paramètre custom
+    $wp_customize->add_setting('main_color', [
+        'type' => 'theme_mod', // or 'option'
+        'capability' => 'edit_theme_options',
+        'default' => '#3f51b5',
+        'transport' => 'refresh', // or postMessage
+        'sanitize_callback' => 'sanitize_hex_color'
+    ]);
+
+    // Ajout d'un control (color picker)
+    $wp_customize->add_control(
+        new WP_Customize_Color_Control($wp_customize, 'main_color', [
+            'label' => __('Couleur principale', 'ESGI'),
+            'section' => 'esgi_params',
+            'priority' => 1,
+        ])
+    );
+
+    // Ajout d'un paramètre custom
+    $wp_customize->add_setting('dark_mode', [
+        'type' => 'theme_mod', // or 'option'
+        'capability' => 'edit_theme_options',
+        'default' => false,
+        'transport' => 'refresh', // or postMessage
+        'sanitize_callback' => 'esgi_sanitize_bool'
+    ]);
+
+    // Ajout d'un control
+    $wp_customize->add_control('dark_mode', [
+        'type' => 'checkbox',
+        'priority' => 2, // Within the section.
+        'section' => 'esgi_params', // Required, core or custom.
+        'label' => __('Dark mode', 'ESGI'),
+        'description' => __('Black is beautiful :)', 'ESGI'),
+    ]);
+}
+
+function esgi_sanitize_bool($value)
+{
+    return is_bool($value) ? $value : false;
+}
+
+
+// Application des parametres custom
+
+add_action('wp_head', 'esgi_wp_head', 99);
+function esgi_wp_head()
+{
+    $main_color = get_theme_mod('main_color', '#3f51b5');
+    echo '<style>:root{ --main-color: ' . $main_color . '}</style>';
+}
+
+
+add_filter('body_class', 'esgi_body_class');
+function esgi_body_class($classes)
+{
+    if (get_theme_mod('dark_mode', false)) {
+        $classes[] = 'dark';
+    }
+    return $classes;
+}

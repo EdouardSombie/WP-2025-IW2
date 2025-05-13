@@ -4,17 +4,16 @@
 get_header();
 ?>
 
-<main>
+<main class="post">
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <h1><?php the_title() ?></h1>
                 <div class="post-meta">
-                    <div class="author-meta">
+                    <div class="post-author">
+                        <img src="<?= get_avatar_url($post->post_author) ?>" alt="<?= get_the_author_meta('nickname', $post->post_author) ?>">
                         <?php
-                        // récuperer l'id de l'auteur 
-                        // ap partir de cet ID, afficher le nickname de l'auteur (dans ses meta-données)
-                        echo the_author();
+                        echo get_the_author_meta('nickname', $post->post_author);
                         ?>
                     </div>
                     <time>
