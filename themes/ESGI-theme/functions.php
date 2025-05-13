@@ -30,7 +30,7 @@ function esgi_enqueue_assets()
 }
 
 // Customisation de l'affichage des titres
-add_filter('the_title', 'esgi_customTitle', 10, 1);
+//add_filter('the_title', 'esgi_customTitle', 10, 1);
 function esgi_customTitle($title)
 {
     return strtoupper($title);
