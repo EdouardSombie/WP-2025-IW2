@@ -1,7 +1,7 @@
 <?php
 // Envoi d'une requete wp grâce à la fonction get_posts($args)
 $args = [
-    'post_type' => 'post', // valeur par défaut
+    'post_type' => $postType ?? 'post', // valeur par défaut
 ];
 $posts = get_posts($args); // Récupération de tous les résultats
 // echo '<pre>';

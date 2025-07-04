@@ -14,7 +14,8 @@ a {
 	color: inherit;
 	opacity: 0.8;
 	&:hover {
-		text-decoration: uderline;
+		text-decoration: underline;
+		color: var(--main-color);
 	}
 }
 

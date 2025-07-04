@@ -4451,7 +4451,8 @@ a {
   opacity: 0.8;
 }
 a:hover {
-  text-decoration: uderline;
+  text-decoration: underline;
+  color: var(--main-color);
 }
 
 ul {

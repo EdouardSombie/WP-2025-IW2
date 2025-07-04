@@ -27,6 +27,14 @@ add_action('wp_enqueue_scripts', 'esgi_enqueue_assets');
 function esgi_enqueue_assets()
 {
     wp_enqueue_style('main', get_stylesheet_uri());
+
+    // ajouter des variables à js
+    $ajaxURL = admin_url('admin-ajax.php');
+    $ajaxParams = ['urlAjax' => $ajaxURL];
+
+    wp_enqueue_script('main', get_stylesheet_directory_uri() . '/assets/main.js');
+    // ne marche que si un script a déjà été enregistré... (raison pour laquelle je charge un script vide ci-dessus)
+    wp_localize_script('main', 'ajaxParams', $ajaxParams);
 }
 
 // Customisation de l'affichage des titres
